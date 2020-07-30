@@ -1,0 +1,14 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <tr><td><img src="/plugin/coderrect/images/coderrectlogo.svg" width="48" height="48"/></td><td><strong>Summary</strong></td></tr>
+    <tr><td></td><td>
+        <table><tbody>
+            <tr><td align="right"><strong>Data races</strong></td><td><j:out value="${it.stats.dataRaces}"/></td></tr>
+            <tr><td align="right"><strong>Mismatched API calls</strong></td><td><j:out value="${it.stats.mismatchedAPIs}"/></td></tr>
+            <tr><td align="right"><strong>Deadlocks</strong></td><td><j:out value="${it.stats.deadlocks}"/></td></tr>
+            <tr><td align="right"><strong>Atomicity violations</strong></td><td><j:out value="${it.stats.atomicityViolations}"/></td></tr>
+            <tr><td align="right"><strong>Order violations</strong></td><td><j:out value="${it.stats.orderViolations}"/></td></tr>
+            <tr><td align="right"><strong>Total</strong></td><td><strong><j:out value="${it.stats.total}"/></strong></td></tr>
+        </tbody></table>
+    </td></tr>
+</j:jelly>

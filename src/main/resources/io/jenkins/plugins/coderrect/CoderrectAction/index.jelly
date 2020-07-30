@@ -1,0 +1,112 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:st="jelly:stapler">
+    <l:layout title="Races Summary">
+        <l:side-panel>
+            <st:include page="sidepanel.jelly" it="${it.run}" optional="true" />
+        </l:side-panel>
+        <l:main-panel>
+            <script src="/plugin/coderrect/jquery-3.4.1.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="/plugin/coderrect/coderrect.css" />
+
+            <div class="header">
+                <table id="headerTable">
+                    <tr>
+                        <td rowspan="5"><img src="/plugin/coderrect/images/coderrect-logo.png"/></td>
+                        <td class="labelSpan">Report title:</td>
+                        <td><span>Race Detection for ${it.stats.projectName}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="labelSpan">Date: </td><td><span>${it.stats.reportGeneratedAt}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="labelSpan">Generated with: </td><td><span>${it.stats.coderrectVer}</span></td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="labelSpan">Detected races: </td><td><span>${it.stats.dataRaces}</span></td><td></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="races">
+                <j:forEach var="dataRace" items="${it.stats.dataRaceList}" indexVar="i">
+                <div class="raceDiv">
+                    <div class="raceHeaderDiv">Race No. ${i+1}<span class="raceNoSpan"></span></div>
+
+                    <div class="innerRaceDiv">
+                    <div class="raceBodyDiv">
+                        <j:if test="${dataRace.isOpenMPRace}">
+                        <div class="raceOpenMPDiv">
+                            <div class="raceSharedVarSrc">
+                                <span class="explanationSpan">This is the OpenMP section causing the race.</span>
+                            </div>
+                            <div class="codeSnippet">
+                                <pre><code></code></pre>
+                            </div>
+                        </div>
+                        </j:if>
+
+                        <j:if test="${!dataRace.isOpenMPRace}">
+                        <div class="raceSharedVarDiv">
+                            <div class="raceSharedVarSrc">
+                                <a class="srcFileLink" href="">${dataRace.srcFilePath}</a>:
+                                <span class="lineNumberSpan">${dataRace.lineNum}</span>:
+                                <span class="explanationSpan">A variable defined here could be accessed by multiple threads simultaneously without
+                                    correct synchronizations.</span>
+                            </div>
+                            <div class="codeSnippet">
+                                <pre><code>${dataRace.varCodeSnippet}</code></pre>
+                            </div>
+                        </div>
+                        </j:if>
+
+                        <div class="raceThreadsDiv">
+                            <table width="100%">
+                                <tr>
+                                    <td width="50%">
+                                        <div class="raceThreadSrcDiv1">
+                                            <span class="labelSpan">Thread1: </span>
+                                            <span><a class="srcFileLink" href="">${dataRace.thread1SrcFilePath}</a></span>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="raceThreadSrcDiv2">
+                                            <span class="labelSpan">Thread2: </span>
+                                            <span><a class="srcFileLink" href="">${dataRace.thread2SrcFilePath}</a></span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td width="50%">
+                                        <div class="codeSnippet raceThreadCodeSnippet1">
+                                            <pre><code>${dataRace.thread1CodeSnippet}</code></pre>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="codeSnippet raceThreadCodeSnippet2">
+                                            <pre><code>${dataRace.thread2CodeSnippet}</code></pre>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">
+                                        <div class="stacktraceDiv codeSnippet raceThreadStacktrace1">
+                                            <pre><code>${dataRace.thread1StackTrace}</code></pre>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="stacktraceDiv codeSnippet raceThreadStacktrace2">
+                                            <pre><code>${dataRace.thread2StackTrace}</code></pre>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </j:forEach>
+            </div>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

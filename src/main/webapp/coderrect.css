@@ -1,0 +1,118 @@
+div.header {
+    margin: auto;
+    margin-top: 100px;
+    width: 70%;
+/*    border: 2px solid green; */
+    border: 2px solid gray;
+    border-collapse: collapse;
+    -moz-box-shadow: 3px 3px 4px #AAA;
+    -webkit-box-shadow: 3px 3px 4px #AAA;
+    box-shadow: 3px 3px 4px #AAA;
+}
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+  
+.navbar a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+  
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+  
+.navbar a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+table#headerTable td {
+/*    border: 1px solid #D3D3D3; */
+    padding: 4px 15px 4px 15px;
+    margin: 20px 15px 20px 15px;
+}
+
+.raceDiv {
+    margin: auto;
+    margin-top: 25px;
+    width: 70%;
+    border: 2px solid gray;
+    border-collapse: collapse;
+    -moz-box-shadow: 3px 3px 4px #AAA;
+    -webkit-box-shadow: 3px 3px 4px #AAA;
+    box-shadow: 3px 3px 4px #AAA;
+}
+
+
+.mismatchedAPIDiv {
+    margin: auto;
+    margin-top: 25px;
+    width: 70%;
+    border: 2px solid gray;
+    border-collapse: collapse;
+    -moz-box-shadow: 3px 3px 4px #AAA;
+    -webkit-box-shadow: 3px 3px 4px #AAA;
+    box-shadow: 3px 3px 4px #AAA;
+}
+
+
+.innerRaceDiv {
+    margin: auto;
+    padding: 10px;
+}
+
+.raceHeaderDiv {
+    margin: auto;
+    border: 1px solid black;
+    padding: 10px;
+    background-color: #B22222;
+    color: #FFFAFA;
+    font-weight: bold;
+    font-size: 110%;
+    font-family: Serif, serif;
+}
+
+.codeSnippet {
+    border: 1px dashed black;
+    height: 100%;
+    margin-top: 10px;
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+}
+
+#sendFeedbackTD {
+    font-size: xx-large;
+}
+
+
+.raceThreadsDiv {
+    margin-top: 10px;
+}
+
+.explanationSpan {
+    font-weight: bold;
+}
+
+.labelSpan {
+    font-weight: bold;
+}
+
+
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.modal {
+    max-width: 1000px;
+}
