@@ -56,7 +56,12 @@ public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
         // ws remotely executes 'parser' on the slave machine by sending jar file to
         // the slave and ser/deser its return value to the master
         CoderrectStats stats = ws.act(parser);
-        CoderrectAction action = new CoderrectAction(run, stats);
+        Run<?,?> prevRun = run.getPreviousBuild();
+        CoderrectStats prevStats = null;
+        if (prevRun != null) {
+            prevStats = prevRun.getAction(CoderrectAction.class).getStats();
+        }
+        CoderrectAction action = new CoderrectAction(run, stats, prevStats);
         run.addAction(action);
 
         copyFilesToBuildDirectory(run, ws, listener, run.getRootDir(), launcher.getChannel());

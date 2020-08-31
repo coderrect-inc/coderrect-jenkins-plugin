@@ -98,18 +98,7 @@ public class CoderrectParser implements FilePath.FileCallable<CoderrectStats>{
         stats.setMismatchedAPIs(jarrMismatchedAPIs.size());
 
         JSONArray jarrViolations = raceJson.getJSONArray("orderViolations");
-        int atomicitViolations = 0;
-        int orderViolations = 0;
-        for (int i = 0; i < jarrViolations.size(); i++) {
-            JSONObject j = jarrViolations.getJSONObject(i);
-            if (j.getBoolean("isAV")) {
-                atomicitViolations ++;
-            } else {
-                orderViolations ++;
-            }
-        }
-        stats.setAtomicityViolations(atomicitViolations);
-        stats.setOrderViolations(orderViolations);
+        stats.setOrderViolations(jarrViolations.size());
 
         stats.setParsedOk(true);
         stats.setErrmsg("OK");

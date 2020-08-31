@@ -3,12 +3,41 @@
     <tr><td><img src="/plugin/coderrect/images/coderrectlogo.svg" width="48" height="48"/></td><td><strong>Summary</strong></td></tr>
     <tr><td></td><td>
         <table><tbody>
-            <tr><td align="right"><strong>Data races</strong></td><td><j:out value="${it.stats.dataRaces}"/></td></tr>
-            <tr><td align="right"><strong>Mismatched API calls</strong></td><td><j:out value="${it.stats.mismatchedAPIs}"/></td></tr>
-            <tr><td align="right"><strong>Deadlocks</strong></td><td><j:out value="${it.stats.deadlocks}"/></td></tr>
-            <tr><td align="right"><strong>Atomicity violations</strong></td><td><j:out value="${it.stats.atomicityViolations}"/></td></tr>
-            <tr><td align="right"><strong>Order violations</strong></td><td><j:out value="${it.stats.orderViolations}"/></td></tr>
-            <tr><td align="right"><strong>Total</strong></td><td><strong><j:out value="${it.stats.total}"/></strong></td></tr>
+            <tr>
+                <td></td>
+                <td align="right"><strong>Previous Build</strong></td>
+                <td align="right"><strong>This Build</strong></td>
+            </tr>
+            <tr>
+                <td align="right"><strong>Data races</strong></td>
+                <td align="middle"><j:out value="${it.prevStats.dataRaces}"/></td>
+                <td align="middle"><j:out value="${it.stats.dataRaces}"/></td>
+            </tr>
+            <tr>
+                <td align="right"><strong>Mismatched API calls</strong></td>
+                <td align="middle"><j:out value="${it.prevStats.mismatchedAPIs}"/></td>
+                <td align="middle"><j:out value="${it.stats.mismatchedAPIs}"/></td>
+            </tr>
+            <tr>
+                <td align="right"><strong>Deadlocks</strong></td>
+                <td align="middle"><j:out value="${it.prevStats.deadlocks}"/></td>
+                <td align="middle"><j:out value="${it.stats.deadlocks}"/></td>
+            </tr>
+            <tr>
+                <td align="right"><strong>Order violations</strong></td>
+                <td align="middle"><j:out value="${it.prevStats.orderViolations}"/></td>
+                <td align="middle"><j:out value="${it.stats.orderViolations}"/></td>
+            </tr>
+            <tr>
+                <td align="right"><strong>TOCTOUs</strong></td>
+                <td align="middle"><j:out value="${it.prevStats.toctous}"/></td>
+                <td align="middle"><j:out value="${it.stats.toctous}"/></td>
+            </tr>
+            <tr>
+                <td align="right"><strong>Total</strong></td>
+                <td align="middle"><strong><j:out value="${it.prevStats.total}"/></strong></td>
+                <td align="middle"><strong><j:out value="${it.stats.total}"/></strong></td>
+            </tr>
         </tbody></table>
     </td></tr>
 </j:jelly>

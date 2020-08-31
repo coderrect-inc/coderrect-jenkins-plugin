@@ -20,10 +20,10 @@ public class CoderrectStats {
     private int deadlocks;
     // # of mismatched APIs
     private int mismatchedAPIs;
-    // # of atomicity violations
-    private int atomicityViolations;
     // # of order violations
     private int orderViolations;
+    // # of toctous
+    private int toctous;
     // # of total races
     private int total;
 
@@ -99,11 +99,11 @@ public class CoderrectStats {
         updateTotal();
     }
 
-    public int getAtomicityViolations() {
-        return atomicityViolations;
+    public int getToctous() {
+        return toctous;
     }
-    public void setAtomicityViolations(int atomicityViolations) {
-        this.atomicityViolations = atomicityViolations;
+    public void setToctous(int toctous) {
+        this.toctous = toctous;
         updateTotal();
     }
 
@@ -119,6 +119,6 @@ public class CoderrectStats {
         return this.total;
     }
     private void updateTotal() {
-        this.total = dataRaces + deadlocks + mismatchedAPIs + atomicityViolations + orderViolations;
+        this.total = dataRaces + deadlocks + mismatchedAPIs + toctous + orderViolations;
     }
 }

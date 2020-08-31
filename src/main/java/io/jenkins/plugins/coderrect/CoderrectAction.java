@@ -6,14 +6,20 @@ import jenkins.model.RunAction2;
 public class CoderrectAction implements RunAction2 {
     private transient Run run;
     private final CoderrectStats stats;
+    private final CoderrectStats prevStats;
 
-    public CoderrectAction(Run<?, ?> run, CoderrectStats stats) {
+    public CoderrectAction(Run<?, ?> run, CoderrectStats stats, CoderrectStats prevStats) {
         this.run = run;
         this.stats = stats;
+        this.prevStats = prevStats;
     }
 
     public CoderrectStats getStats() {
         return stats;
+    }
+
+    public CoderrectStats getPrevStats() {
+        return prevStats;
     }
 
     @Override
