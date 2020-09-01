@@ -24,8 +24,40 @@
                     <tr>
                         <td class="labelSpan">Detected races: </td><td><span>${it.stats.dataRaces}</span></td><td></td>
                     </tr>
+                    <tr>
+                        <td class="labelSpan">View: </td>
+                        <td>
+                            <span class="view"><a id="full" onclick="onClickFull()">Full</a></span>
+                            <span class="view"><a id="new" onclick="onClickNew()">New</a></span>
+                            <span class="view"><a id="disappeared" onclick="onClickDisappeared()">Solved</a></span>
+                        </td>
+                        <td></td>
+                    </tr>
                 </table>
             </div>
+
+            <script>
+              function onClickNew() {
+                $("#newAddedRaces").show();
+                $("#disappearedRaces").hide();
+                $("#races").hide();
+                return false;
+              }
+
+              function onClickFull() {
+                $("#newAddedRaces").hide();
+                $("#disappearedRaces").hide();
+                $("#races").show();
+                return false;
+              }
+
+              function onClickDisappeared() {
+                $("#newAddedRaces").hide();
+                $("#disappearedRaces").show();
+                $("#races").hide();
+                return false;
+              }
+            </script>
 
             <div id="races">
                 <j:forEach var="dataRace" items="${it.stats.dataRaceList}" indexVar="i">
@@ -107,6 +139,187 @@
                 </div>
                 </j:forEach>
             </div>
+
+            <div id="newAddedRaces">
+            <j:if test="${size(it.newAdded) == 0}">
+                <div class="message">
+                    <span>No new founded races in this build</span>
+                </div>
+            </j:if>
+            <j:if test="${size(it.newAdded) > 0}">
+                <j:forEach var="dataRace" items="${it.stats.newAdded}" indexVar="i">
+                <div class="raceDiv">
+                    <div class="raceHeaderDiv">Race No. ${i+1}<span class="raceNoSpan"></span></div>
+
+                    <div class="innerRaceDiv">
+                    <div class="raceBodyDiv">
+                        <j:if test="${dataRace.isOpenMPRace}">
+                        <div class="raceOpenMPDiv">
+                            <div class="raceSharedVarSrc">
+                                <span class="explanationSpan">This is the OpenMP section causing the race.</span>
+                            </div>
+                            <div class="codeSnippet">
+                                <pre><code></code></pre>
+                            </div>
+                        </div>
+                        </j:if>
+
+                        <j:if test="${!dataRace.isOpenMPRace}">
+                        <div class="raceSharedVarDiv">
+                            <div class="raceSharedVarSrc">
+                                <a class="srcFileLink" href="">${dataRace.srcFilePath}</a>:
+                                <span class="lineNumberSpan">${dataRace.lineNum}</span>:
+                                <span class="explanationSpan">A variable defined here could be accessed by multiple threads simultaneously without
+                                    correct synchronizations.</span>
+                            </div>
+                            <div class="codeSnippet">
+                                <pre><code>${dataRace.varCodeSnippet}</code></pre>
+                            </div>
+                        </div>
+                        </j:if>
+
+                        <div class="raceThreadsDiv">
+                            <table width="100%">
+                                <tr>
+                                    <td width="50%">
+                                        <div class="raceThreadSrcDiv1">
+                                            <span class="labelSpan">Thread1: </span>
+                                            <span><a class="srcFileLink" href="">${dataRace.thread1SrcFilePath}</a></span>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="raceThreadSrcDiv2">
+                                            <span class="labelSpan">Thread2: </span>
+                                            <span><a class="srcFileLink" href="">${dataRace.thread2SrcFilePath}</a></span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td width="50%">
+                                        <div class="codeSnippet raceThreadCodeSnippet1">
+                                            <pre><code>${dataRace.thread1CodeSnippet}</code></pre>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="codeSnippet raceThreadCodeSnippet2">
+                                            <pre><code>${dataRace.thread2CodeSnippet}</code></pre>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">
+                                        <div class="stacktraceDiv codeSnippet raceThreadStacktrace1">
+                                            <pre><code>${dataRace.thread1StackTrace}</code></pre>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="stacktraceDiv codeSnippet raceThreadStacktrace2">
+                                            <pre><code>${dataRace.thread2StackTrace}</code></pre>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </j:forEach>
+            </j:if>
+            </div>
+
+            <div id="disappearedRaces">
+            <j:if test="${size(it.newAdded) == 0}">
+                <div class="message">
+                    <span>No existing races from the last build are fixed</span>
+                </div>
+            </j:if>
+            <j:if test="${size(it.newAdded) > 0}">
+                <j:forEach var="dataRace" items="${it.stats.disappeared}" indexVar="i">
+                <div class="raceDiv">
+                    <div class="raceHeaderDiv">Race No. ${i+1}<span class="raceNoSpan"></span></div>
+
+                    <div class="innerRaceDiv">
+                    <div class="raceBodyDiv">
+                        <j:if test="${dataRace.isOpenMPRace}">
+                        <div class="raceOpenMPDiv">
+                            <div class="raceSharedVarSrc">
+                                <span class="explanationSpan">This is the OpenMP section causing the race.</span>
+                            </div>
+                            <div class="codeSnippet">
+                                <pre><code></code></pre>
+                            </div>
+                        </div>
+                        </j:if>
+
+                        <j:if test="${!dataRace.isOpenMPRace}">
+                        <div class="raceSharedVarDiv">
+                            <div class="raceSharedVarSrc">
+                                <a class="srcFileLink" href="">${dataRace.srcFilePath}</a>:
+                                <span class="lineNumberSpan">${dataRace.lineNum}</span>:
+                                <span class="explanationSpan">A variable defined here could be accessed by multiple threads simultaneously without
+                                    correct synchronizations.</span>
+                            </div>
+                            <div class="codeSnippet">
+                                <pre><code>${dataRace.varCodeSnippet}</code></pre>
+                            </div>
+                        </div>
+                        </j:if>
+
+                        <div class="raceThreadsDiv">
+                            <table width="100%">
+                                <tr>
+                                    <td width="50%">
+                                        <div class="raceThreadSrcDiv1">
+                                            <span class="labelSpan">Thread1: </span>
+                                            <span><a class="srcFileLink" href="">${dataRace.thread1SrcFilePath}</a></span>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="raceThreadSrcDiv2">
+                                            <span class="labelSpan">Thread2: </span>
+                                            <span><a class="srcFileLink" href="">${dataRace.thread2SrcFilePath}</a></span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td width="50%">
+                                        <div class="codeSnippet raceThreadCodeSnippet1">
+                                            <pre><code>${dataRace.thread1CodeSnippet}</code></pre>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="codeSnippet raceThreadCodeSnippet2">
+                                            <pre><code>${dataRace.thread2CodeSnippet}</code></pre>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">
+                                        <div class="stacktraceDiv codeSnippet raceThreadStacktrace1">
+                                            <pre><code>${dataRace.thread1StackTrace}</code></pre>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="stacktraceDiv codeSnippet raceThreadStacktrace2">
+                                            <pre><code>${dataRace.thread2StackTrace}</code></pre>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </j:forEach>
+            </j:if>
+            </div>
+            <script>
+                $("#newAddedRaces").hide();
+                $("#disappearedRaces").hide();
+            </script>
+
         </l:main-panel>
     </l:layout>
 </j:jelly>

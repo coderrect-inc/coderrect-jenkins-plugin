@@ -12,8 +12,8 @@ public class CoderrectAction implements RunAction2 {
     private transient Run run;
     private final CoderrectStats stats;
     private final CoderrectStats prevStats;
-    private final List<Integer> newAdded;
-    private final List<Integer> disappeared;
+    private final List<DataRace> newAdded;
+    private final List<DataRace> disappeared;
 
     public CoderrectAction(Run<?, ?> run, CoderrectStats stats, CoderrectStats prevStats) {
         this.run = run;
@@ -66,8 +66,8 @@ public class CoderrectAction implements RunAction2 {
 
     private void findDifference(List<DataRace> currRaces,
                                 List<DataRace> prevRaces,
-                                List<Integer> newAdded,
-                                List<Integer> disappeared) {
+                                List<DataRace> newAdded,
+                                List<DataRace> disappeared) {
         Set<Integer> oldFounded = new HashSet<>();
         for (int k = 0; k < currRaces.size(); k++) {
             DataRace race = currRaces.get(k);
@@ -83,22 +83,22 @@ public class CoderrectAction implements RunAction2 {
             }
 
             if (!found) {
-                newAdded.add(k);
+                newAdded.add(race);
             }
         }
 
         for (int i = 0; i < prevRaces.size(); i++) {
             if (!oldFounded.contains(i)) {
-                disappeared.add(i);
+                disappeared.add(prevRaces.get(i));
             }
         }
     }
 
-    public List<Integer> getNewAdded() {
+    public List<DataRace> getNewAdded() {
         return newAdded;
     }
 
-    public List<Integer> getDisappeared() {
+    public List<DataRace> getDisappeared() {
         return disappeared;
     }
 }
