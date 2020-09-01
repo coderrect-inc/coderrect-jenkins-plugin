@@ -72,7 +72,7 @@ public class DataRace extends AbstractRace {
         this.varCodeSnippet = jshObj.getString("sourceLine");
 
         builder.append(jshObj.getString("filename")).append('\n');
-        builder.append(jshObj.getString("sourceLine")).append('\n');
+        builder.append(removeLineNumber(jshObj.getString("sourceLine")).trim()).append('\n');
 
         JSONObject jth1 = jrace.getJSONObject("access1");
         JSONObject jth2 = jrace.getJSONObject("access2");
@@ -141,6 +141,14 @@ public class DataRace extends AbstractRace {
 
         for (int i = 0; i < jarr.size(); i++) {
             String s = jarr.getString(i).trim();
+            if (s.charAt(s.length()-1) == ']') {
+                for (int k = s.length()-1; k > 0; k--) {
+                    if (s.charAt(k) == '[') {
+                        s = s.substring(0, k);
+                        break;
+                    }
+                }
+            }
             builder.append(s).append('\n');
         }
 
@@ -201,6 +209,10 @@ public class DataRace extends AbstractRace {
 
     public boolean getIsOpenMPRace() {
         return this.isOpenMPRace;
+    }
+
+    public String getSignature() {
+        return signature;
     }
 
     @Override

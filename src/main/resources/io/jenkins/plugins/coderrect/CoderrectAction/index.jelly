@@ -147,7 +147,7 @@
                 </div>
             </j:if>
             <j:if test="${size(it.newAdded) > 0}">
-                <j:forEach var="dataRace" items="${it.stats.newAdded}" indexVar="i">
+                <j:forEach var="dataRace" items="${it.newAdded}" indexVar="i">
                 <div class="raceDiv">
                     <div class="raceHeaderDiv">Race No. ${i+1}<span class="raceNoSpan"></span></div>
 
@@ -229,13 +229,13 @@
             </div>
 
             <div id="disappearedRaces">
-            <j:if test="${size(it.newAdded) == 0}">
+            <j:if test="${size(it.disappeared) == 0}">
                 <div class="message">
                     <span>No existing races from the last build are fixed</span>
                 </div>
             </j:if>
-            <j:if test="${size(it.newAdded) > 0}">
-                <j:forEach var="dataRace" items="${it.stats.disappeared}" indexVar="i">
+            <j:if test="${size(it.disappeared) > 0}">
+                <j:forEach var="dataRace" items="${it.disappeared}" indexVar="i">
                 <div class="raceDiv">
                     <div class="raceHeaderDiv">Race No. ${i+1}<span class="raceNoSpan"></span></div>
 

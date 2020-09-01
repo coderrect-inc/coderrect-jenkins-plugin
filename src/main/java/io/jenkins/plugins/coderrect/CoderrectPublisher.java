@@ -19,6 +19,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.List;
 
 public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
@@ -61,6 +62,9 @@ public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
         if (prevRun != null) {
             prevStats = prevRun.getAction(CoderrectAction.class).getStats();
         }
+        logRaceList(listener.getLogger(), "current", stats.getDataRaceList());
+        if (prevStats != null)
+            logRaceList(listener.getLogger(), "previous", prevStats.getDataRaceList());
         CoderrectAction action = new CoderrectAction(run, stats, prevStats);
         listener.getLogger().printf("[coderrect] newAdded=%d, disappeared=%d\n",
                 action.getNewAdded().size(), action.getDisappeared().size());
@@ -69,6 +73,14 @@ public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
         copyFilesToBuildDirectory(run, ws, listener, run.getRootDir(), launcher.getChannel());
 
         listener.getLogger().println("[coderrect] done");
+    }
+
+    private void logRaceList(PrintStream logger, String prefix, List<DataRace> races) {
+        logger.println("[coderrect] " + prefix);
+        for (DataRace race : races) {
+            logger.printf("signature - %s\n", race.getSignature());
+        }
+        logger.println("\n\n");
     }
 
     @Override
