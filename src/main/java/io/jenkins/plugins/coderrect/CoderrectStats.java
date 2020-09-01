@@ -27,7 +27,7 @@ public class CoderrectStats {
     // # of total races
     private int total;
 
-    // list of data races
+    // list of races
     private ArrayList<DataRace> dataRaceList;
 
     public CoderrectStats() {

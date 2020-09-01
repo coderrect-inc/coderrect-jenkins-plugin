@@ -62,6 +62,8 @@ public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
             prevStats = prevRun.getAction(CoderrectAction.class).getStats();
         }
         CoderrectAction action = new CoderrectAction(run, stats, prevStats);
+        listener.getLogger().printf("[coderrect] newAdded=%d, disappeared=%d\n",
+                action.getNewAdded().size(), action.getDisappeared().size());
         run.addAction(action);
 
         copyFilesToBuildDirectory(run, ws, listener, run.getRootDir(), launcher.getChannel());

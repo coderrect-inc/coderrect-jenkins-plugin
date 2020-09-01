@@ -100,6 +100,9 @@ public class CoderrectParser implements FilePath.FileCallable<CoderrectStats>{
         JSONArray jarrViolations = raceJson.getJSONArray("orderViolations");
         stats.setOrderViolations(jarrViolations.size());
 
+        JSONArray jarrToctous = raceJson.getJSONArray("toctou");
+        stats.setToctous(jarrToctous.size());
+
         stats.setParsedOk(true);
         stats.setErrmsg("OK");
         stats.setProjectName(projectName);

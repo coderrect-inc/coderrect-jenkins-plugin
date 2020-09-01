@@ -43,7 +43,7 @@ import net.sf.json.JSONObject;
  *       }
  *     }
  */
-public class DataRace {
+public class DataRace extends AbstractRace {
     private String srcFilePath;
     private int lineNum;
     private String varCodeSnippet;
@@ -58,11 +58,21 @@ public class DataRace {
 
     private boolean isOpenMPRace;
 
+    /**
+     * Used to compare if two races are logical equal
+     */
+    private String signature;
+
     public DataRace(JSONObject jrace) {
+        StringBuilder builder = new StringBuilder();
+
         JSONObject jshObj = jrace.getJSONObject("sharedObj");
         this.srcFilePath = jshObj.getString("dir") + "/" + jshObj.getString("filename");
         this.lineNum = jshObj.getInt("line");
         this.varCodeSnippet = jshObj.getString("sourceLine");
+
+        builder.append(jshObj.getString("filename")).append('\n');
+        builder.append(jshObj.getString("sourceLine")).append('\n');
 
         JSONObject jth1 = jrace.getJSONObject("access1");
         JSONObject jth2 = jrace.getJSONObject("access2");
@@ -75,6 +85,66 @@ public class DataRace {
         this.thread2StackTrace = parseStackTrace(jth2);
 
         this.isOpenMPRace = jrace.getBoolean("isOmpRace");
+
+        addThreadIntoSignature(builder, jth1);
+        addThreadIntoSignature(builder, jth2);
+        signature = builder.toString();
+    }
+
+
+    private void addThreadIntoSignature(StringBuilder builder, JSONObject jth) {
+        builder.append(jth.getString("filename"));
+        builder.append(normalizeCode(jth.getString("snippet")));
+        builder.append(normalizeStackTrace(jth.getJSONArray("stacktrace")));
+    }
+
+
+    /**
+     * For each line of code in the snippet, get rid of the line number,
+     * and trim the spaces wrapping the line
+     */
+    private String normalizeCode(String codeSnippet) {
+        StringBuilder builder = new StringBuilder();
+
+        String[] lines = codeSnippet.split("\\n");
+        for (String line : lines) {
+            String s = removeLineNumber(line);
+            s = s.trim();
+            if (s.length() > 0)
+                builder.append(s).append('\n');
+        }
+
+        return builder.toString();
+    }
+
+
+    /**
+     * A line has the format
+     *   12|   fdf dfdfd
+     *
+     * This method removes the line number 12 and the vertical bar.
+     */
+    private String removeLineNumber(String line) {
+        int idx = line.indexOf('|');
+        if (idx >= 0)
+            return line.substring(idx+1);
+        return line;
+    }
+
+
+    /**
+     * Remove leading and trailing spaces from each line of the stack trace
+     * and then concat them together
+     */
+    private String normalizeStackTrace(JSONArray jarr) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < jarr.size(); i++) {
+            String s = jarr.getString(i).trim();
+            builder.append(s).append('\n');
+        }
+
+        return builder.toString();
     }
 
 
@@ -131,5 +201,17 @@ public class DataRace {
 
     public boolean getIsOpenMPRace() {
         return this.isOpenMPRace;
+    }
+
+    @Override
+    public boolean isLogicalEqualTo(AbstractRace race) {
+        if (!(race instanceof DataRace))
+            return false;
+
+        DataRace tmpRace = (DataRace) race;
+        if (isOpenMPRace != tmpRace.isOpenMPRace)
+            return false;
+
+        return signature.equalsIgnoreCase(((DataRace) race).signature);
     }
 }
