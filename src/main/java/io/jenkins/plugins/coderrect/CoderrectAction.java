@@ -22,7 +22,12 @@ public class CoderrectAction implements RunAction2 {
         this.newAdded = new ArrayList<>();
         this.disappeared = new ArrayList<>();
 
-        findDifference(this.stats.getDataRaceList(), this.prevStats.getDataRaceList(), newAdded, disappeared);
+        if (this.prevStats != null) {
+            findDifference(this.stats.getDataRaceList(), this.prevStats.getDataRaceList(), newAdded, disappeared);
+        }
+        else {
+            this.newAdded.addAll(this.stats.getDataRaceList());
+        }
     }
 
     public CoderrectStats getStats() {

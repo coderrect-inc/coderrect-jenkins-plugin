@@ -60,7 +60,9 @@ public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
         Run<?,?> prevRun = run.getPreviousBuild();
         CoderrectStats prevStats = null;
         if (prevRun != null) {
-            prevStats = prevRun.getAction(CoderrectAction.class).getStats();
+            CoderrectAction prevAction = prevRun.getAction(CoderrectAction.class);
+            if (prevAction != null)
+                prevStats = prevAction.getStats();
         }
         logRaceList(listener.getLogger(), "current", stats.getDataRaceList());
         if (prevStats != null)
