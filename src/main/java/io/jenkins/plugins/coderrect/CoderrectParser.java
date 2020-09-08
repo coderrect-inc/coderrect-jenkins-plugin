@@ -75,7 +75,7 @@ public class CoderrectParser implements FilePath.FileCallable<CoderrectStats>{
         }
 
         // parse race json of the picked binary
-        String rawRaceJsonPath = String.format("%s/.coderrect/build/raw_%s.json", baseDir,
+        String rawRaceJsonPath = String.format("%s/.coderrect/build/raw_%s.json", rootDir,
                 jpickedBinary.getString("Name"));
         listener.getLogger().println(String.format("[coderrect] parse the raw race json file. rawRaceJsonPath=%s",
                 rawRaceJsonPath));

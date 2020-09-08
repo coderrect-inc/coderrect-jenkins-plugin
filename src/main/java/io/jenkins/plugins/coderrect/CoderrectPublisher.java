@@ -143,7 +143,7 @@ public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
                     + directory.getAbsolutePath());
         }
 
-        final FilePath coderrectReportPath = ws.child(".coderrect/report");
+        final FilePath coderrectReportPath = ws.child(this.buildDirectory + File.separator + ".coderrect/report");
         if (!coderrectReportPath.exists()) {
             listener.getLogger().println("[coderrect] the report folder doesn't exist. dir=" + coderrectReportPath.getName());
             return;
