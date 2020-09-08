@@ -1,0 +1,8 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form" xmlns:u="/util">
+
+    <f:entry title="${%Project build directory}" field="buildDirectory">
+        <f:textbox name="coderrect.buildDirectory" value="${config.buildDirectory}"/>
+    </f:entry>
+
+</j:jelly>

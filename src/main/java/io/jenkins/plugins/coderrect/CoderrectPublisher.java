@@ -25,15 +25,15 @@ import java.util.List;
 public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
     private static final String DIR_REPORT = ".coderrect";
 
-    private final String publishHighLevelRaces;
+    private String buildDirectory;
 
     @DataBoundConstructor()
-    public CoderrectPublisher(final String publishHighLevelRaces) {
-        this.publishHighLevelRaces = publishHighLevelRaces;
+    public CoderrectPublisher(final String buildDirectory) {
+        this.buildDirectory = buildDirectory;
     }
 
-    public String getPublishHighLevelRaces() {
-        return publishHighLevelRaces;
+    public String getBuildDirectory() {
+        return this.buildDirectory;
     }
 
     /**
@@ -45,15 +45,15 @@ public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
                         @Nonnull Launcher launcher,
                         @Nonnull TaskListener listener)
             throws InterruptedException, IOException {
-        listener.getLogger().println(String.format("[coderrect] Starting. workspace=%s, run=%s",
-                ws.getBaseName(), run.getId()));
+        listener.getLogger().println(String.format("[coderrect] Starting. workspace=%s, run=%s, buildDirectory=%s",
+                ws.getBaseName(), run.getId(), this.buildDirectory));
 
         if (Result.ABORTED.equals(run.getResult())) {
             listener.getLogger().println("Skipping publishing race reports because build aborted");
             return;
         }
 
-        CoderrectParser parser = new CoderrectParser(listener);
+        CoderrectParser parser = new CoderrectParser(listener, this.buildDirectory);
         // ws remotely executes 'parser' on the slave machine by sending jar file to
         // the slave and ser/deser its return value to the master
         CoderrectStats stats = ws.act(parser);

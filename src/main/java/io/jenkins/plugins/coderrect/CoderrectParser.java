@@ -25,13 +25,19 @@ public class CoderrectParser implements FilePath.FileCallable<CoderrectStats>{
     private static final String INDEX_JSON = "index.json";
 
     private final TaskListener listener;
+    private final String buildDirectory;
 
-    public CoderrectParser(TaskListener listener) {
+    public CoderrectParser(TaskListener listener, String buildDirectory) {
         this.listener = listener;
+        this.buildDirectory = buildDirectory;
     }
 
     public TaskListener getListener() {
         return listener;
+    }
+
+    public String getBuildDirectory() {
+        return this.buildDirectory;
     }
 
     /**
@@ -41,12 +47,18 @@ public class CoderrectParser implements FilePath.FileCallable<CoderrectStats>{
     @Override
     public CoderrectStats invoke(File baseDir, VirtualChannel channel)
         throws IOException {
-        listener.getLogger().println(String.format("[coderrect] parser is invoked. baseDir=%s", baseDir));
+        listener.getLogger().println(String.format(
+                "[coderrect] parser is invoked. baseDir=%s, buildDirectory=%s",
+                baseDir, buildDirectory));
 
         // parse index.json and pick up the first binary with at least 1 data race
         JSONObject jpickedBinary = null;
-        final File indexJsonFile = new File(baseDir + File.separator +
+        String rootDir = buildDirectory==null ? baseDir.getPath() : baseDir + File.separator + buildDirectory;
+        final File indexJsonFile = new File(rootDir + File.separator +
                 CODERRECT_BUILD_PATH + File.separator + INDEX_JSON);
+        listener.getLogger().println(String.format(
+            "[coderrect] try to locate index.json. indexJsonFilePath=%s", indexJsonFile.getPath()
+        ));
         JSONObject indexJson = JSONObject.fromObject(Files.toString(indexJsonFile, StandardCharsets.UTF_8));
         JSONArray executableJarr = indexJson.getJSONArray("Executables");
         for (int i = 0; i < executableJarr.size(); i++) {
