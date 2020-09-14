@@ -55,7 +55,7 @@ public class CoderrectAction implements RunAction2 {
     @Override
     public String getIconFileName() {
         // return the path to the icon file
-        return "/plugin/coderrect/images/coderrectlogo.svg";
+        return "/plugin/coderrect/images/Coderrect-Vertical-Logo-RGB.svg";
     }
 
     @Override

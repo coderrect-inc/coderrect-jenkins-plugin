@@ -11,7 +11,7 @@
             <div class="header">
                 <table id="headerTable">
                     <tr>
-                        <td rowspan="5"><img src="/plugin/coderrect/images/coderrect-logo.png"/></td>
+                        <td rowspan="5"><img src="/plugin/coderrect/images/Coderrect-Horizontal-Logo-RGB.svg" width="200" height="80"/></td>
                         <td class="labelSpan">Report title:</td>
                         <td><span>Race Detection for ${it.stats.projectName}</span></td>
                     </tr>

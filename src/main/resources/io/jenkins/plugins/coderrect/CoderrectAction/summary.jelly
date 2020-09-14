@@ -1,6 +1,6 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-    <tr><td><img src="/plugin/coderrect/images/coderrectlogo.svg" width="48" height="48"/></td><td><strong>Summary</strong></td></tr>
+    <tr><td><img src="/plugin/coderrect/images/Coderrect-Vertical-Logo-RGB.svg" width="48" height="48"/></td><td><strong>Summary</strong></td></tr>
     <tr><td></td><td>
         <table><tbody>
             <tr>
