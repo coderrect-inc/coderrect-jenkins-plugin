@@ -108,7 +108,7 @@ public class CoderrectPublisher extends Recorder implements SimpleBuildStep {
         @Nonnull
         @Override
         public String getDisplayName() {
-            return "Publish the race report to Jenkins";
+            return "Publish the coderrect race report";
         }
 
         @Override
